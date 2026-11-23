@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+  <title>등불지기</title>
+  <!-- 홈 화면에 추가하면 주소창과 탭 없이 전체 화면으로 열린다 -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="등불지기">
+  <meta name="theme-color" content="#0e2227">
+  <script type="module" crossorigin src="./assets/index-B8mc4MCw.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-ylsInKnt.css">
+</head>
+<!-- 글자는 여기에 직접 쓰지 않는다: data-i18n 표시를 보고 src/i18n이 현재 언어로 채운다. -->
+<body>
+  <canvas id="view"></canvas>
+  <div id="tags"></div>
+
+  <div id="hud" hidden>
+    <div class="panel" id="me">
+      <div class="row"><button type="button" class="name" id="myName" data-i18n-title="renameTitle"></button><span class="num" id="lv"></span></div>
+      <form id="renameForm" autocomplete="off" hidden>
+        <input id="renameInput" type="text" maxlength="12" data-i18n-aria="renameLabel">
+        <button type="submit" data-i18n="renameSubmit"></button>
+      </form>
+      <div class="bar hp"><i id="hpb"></i></div>
+      <div class="bar xp"><i id="xpb"></i></div>
+      <div class="row"><span class="num" id="hpt"></span><span class="spark" id="sparks"></span></div>
+      <div class="row"><span class="gold" id="gold"></span><span class="num" id="rested"></span></div>
+      <div class="row"><span class="num" id="towerMini"></span><span class="num" id="contrib"></span></div>
+      <div class="num" id="raidMini"></div>
+      <div class="row">
+        <span class="num" id="status"></span>
+        <button type="button" class="plain" id="bagBtn" data-i18n="bag"></button>
+        <button type="button" class="plain" id="menuBtn" data-i18n="menu"></button>
+        <select id="lang" data-i18n-aria="language"></select>
+      </div>
+      <div id="party" hidden>
+        <div class="row"><span class="ttitle" data-i18n="party"></span><button type="button" class="plain" id="partyLeave" data-i18n="partyLeave"></button></div>
+        <div id="partyList"></div>
+      </div>
+    </div>
+
+    <div id="rightcol">
+    <div class="panel" id="tower" hidden>
+      <div class="row"><span class="ttitle" id="towerTitle"></span><span class="num" id="glowText"></span></div>
+      <div class="bar glow"><i id="glowBar"></i></div>
+      <div class="note" id="stageNote"></div>
+      <div class="note" data-i18n="offerNote"></div>
+      <div class="btns">
+        <span class="blabel" data-i18n="offerVerb"></span>
+        <button type="button" id="offerT1" data-i18n="count1"></button>
+        <button type="button" id="offerT5" data-i18n="count5"></button>
+        <button type="button" id="offerTAll" data-i18n="countAll"></button>
+      </div>
+      <div id="villageBox">
+      <div class="row"><span class="ttitle" id="resName"></span><span class="num" id="resText"></span></div>
+      <div class="bar res"><i id="resBar"></i></div>
+      <div class="note" id="resNote"></div>
+      <div class="btns" id="resBtns">
+        <span class="blabel" data-i18n="helpVerb"></span>
+        <button type="button" id="offerR1" data-i18n="count1"></button>
+        <button type="button" id="offerR5" data-i18n="count5"></button>
+        <button type="button" id="offerRAll" data-i18n="countAll"></button>
+      </div>
+      <div id="keepBox" hidden>
+        <div class="row"><span class="ttitle" data-i18n="keepersToday"></span><span class="num" id="tierText"></span></div>
+        <div class="note" id="keepList"></div>
+      </div>
+      </div>
+      <button type="button" class="plain" id="classBtn" data-i18n="changeClass"></button>
+    </div>
+
+    <div class="panel" id="shop" hidden>
+      <div class="row"><span class="ttitle" data-i18n="shop"></span><span class="gold" id="shopGold"></span></div>
+      <div id="shopList"></div>
+    </div>
+
+    <div class="panel" id="forge" hidden>
+      <div class="row"><span class="ttitle" data-i18n="forge"></span><span class="gold" id="forgeGold"></span></div>
+      <div id="forgeList"></div>
+    </div>
+
+    <div class="panel" id="dungeon" hidden>
+      <div class="row"><span class="ttitle" id="dgName"></span><span class="num" id="dgRuns"></span></div>
+      <div class="note" id="dgInfo"></div>
+      <button type="button" id="dgBtn"></button>
+    </div>
+
+    <div class="panel" id="quest">
+      <div class="row"><span class="ttitle" id="questTitle"></span><span class="num" id="questDist"></span></div>
+      <div id="questStep"></div>
+      <div class="num" id="questProg"></div>
+      <div class="note" id="questGo"></div>
+    </div>
+    </div>
+    <div id="goalArrow" hidden></div>
+
+    <div id="topmid">
+      <div class="panel" id="raid" hidden>
+        <div class="rtext" id="raidText"></div>
+        <div class="rhp">
+          <div class="num" id="raidHp"></div>
+          <div class="bar glow"><i id="raidBar"></i></div>
+        </div>
+      </div>
+      <div class="panel" id="tgt" hidden>
+        <div class="row"><span class="tname" id="tname"></span><span class="num" id="thp"></span></div>
+        <div class="bar hp"><i id="tbar"></i></div>
+      </div>
+    </div>
+
+    <div class="panel" id="chat">
+      <div id="log"></div>
+      <button type="button" class="plain" id="chatBtn" data-i18n="chatOpen"></button>
+      <form id="chatForm" autocomplete="off">
+        <input id="chatInput" type="text" maxlength="80" data-i18n-placeholder="chatPlaceholder" data-i18n-aria="chatLabel">
+      </form>
+    </div>
+    <div id="mapBox"><canvas id="minimap" data-i18n-aria="minimap"></canvas><div class="note" id="mapLegend" data-i18n="mapLegend"></div></div>
+    <div id="stick" role="application" data-i18n-aria="stickLabel"><div id="knob"></div></div>
+    <div class="panel" id="pcard" hidden>
+      <div class="pname" id="pcardName"></div>
+      <button type="button" id="pcardInvite" data-i18n="partyInvite"></button>
+      <button type="button" class="plain" id="pcardBlock"></button>
+      <button type="button" class="plain" id="pcardReport" data-i18n="report"></button>
+    </div>
+    <div class="panel" id="bag" hidden>
+      <div class="row"><span class="ttitle" data-i18n="bag"></span><span class="gold" id="bagGold"></span></div>
+      <div id="bagList"></div>
+      <button type="button" class="plain" id="bagClose" data-i18n="close"></button>
+    </div>
+    <div class="panel" id="menu" hidden>
+      <div class="row"><span class="ttitle" data-i18n="menu"></span><span class="gold" id="menuGold"></span></div>
+      <div id="menuTabs"></div>
+      <div id="menuList"></div>
+      <button type="button" class="plain" id="menuClose" data-i18n="close"></button>
+    </div>
+    <div class="panel" id="invite" hidden>
+      <div id="inviteText"></div>
+      <div class="btns">
+        <button type="button" id="inviteYes" data-i18n="partyAccept"></button>
+        <button type="button" class="plain" id="inviteNo" data-i18n="partyDecline"></button>
+      </div>
+    </div>
+    <div class="banner" id="banner" hidden><div id="bannerText"></div><div id="bannerSub"></div></div>
+    <div id="bottom">
+      <div id="feed"></div>
+      <div id="hint" data-i18n="hint"></div>
+      <div id="actRow">
+        <button id="autoBtn" type="button" aria-pressed="false" data-i18n="auto"></button>
+        <button id="townBtn" type="button" data-i18n="toTown"></button>
+        <button id="tabBtn" type="button" data-i18n="attackNearest"></button>
+      </div>
+      <div id="skills"></div>
+    </div>
+  </div>
+
+  <div id="classPick" hidden>
+    <div class="card">
+      <p data-i18n="intro"></p>
+      <h2 data-i18n="chooseClass"></h2>
+      <div id="classList"></div>
+      <p class="note" data-i18n="classHint"></p>
+      <button type="button" class="plain" id="classClose" data-i18n="close"></button>
+    </div>
+  </div>
+
+  <div id="flash"></div>
+
+  <div id="gate">
+    <form class="card" id="joinForm" autocomplete="off">
+      <h1 data-i18n="title"></h1>
+      <p id="gateMsg" data-i18n="connecting"></p>
+      <button type="submit" id="joinBtn" data-i18n="reconnect" hidden></button>
+    </form>
+  </div>
+
+</body>
+</html>
