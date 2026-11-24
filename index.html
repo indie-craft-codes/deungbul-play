@@ -13,10 +13,13 @@
   <link rel="icon" type="image/png" href="./icon-192.png">
   <link rel="manifest" href="./manifest.webmanifest">
   <meta name="theme-color" content="#0e2227">
-  <script type="module" crossorigin src="./assets/index-Boj0x5oK.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-D6IBXRVE.css">
+  <script type="module" crossorigin src="./assets/index-CwQOsd27.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-yKEtCmpC.css">
 </head>
 <!-- 글자는 여기에 직접 쓰지 않는다: data-i18n 표시를 보고 src/i18n이 현재 언어로 채운다. -->
+<!-- 여기에는 틀의 창과 빈 자리만 있다. 이 게임의 창(등탑, 퀘스트, 습격 알림 등)은 게임의 마크업(src/game/markup.ts)이
+     src/hud/shell.ts의 mountPanel로 붙인다. 붙는 자리의 목록과 기준이 되는 요소는 shell.ts의 SLOTS에 있다:
+     여기서 그 요소(#hpt, #gold, #status가 든 줄, #rightcol, #topmid, #autoBtn)의 id나 차례를 바꾸면 그쪽도 함께 본다. -->
 <body>
   <canvas id="view"></canvas>
   <div id="tags"></div>
@@ -30,10 +33,8 @@
       </form>
       <div class="bar hp"><i id="hpb"></i></div>
       <div class="bar xp"><i id="xpb"></i></div>
-      <div class="row"><span class="num" id="hpt"></span><span class="spark" id="sparks"></span></div>
-      <div class="row"><span class="gold" id="gold"></span><span class="num" id="rested"></span></div>
-      <div class="row"><span class="num" id="towerMini"></span><span class="num" id="contrib"></span></div>
-      <div class="num" id="raidMini"></div>
+      <div class="row"><span class="num" id="hpt"></span></div>
+      <div class="row"><span class="gold" id="gold"></span></div>
       <div class="row">
         <span class="num" id="status"></span>
         <button type="button" class="plain" id="bagBtn" data-i18n="bag"></button>
@@ -48,35 +49,6 @@
     </div>
 
     <div id="rightcol">
-    <div class="panel" id="tower" hidden>
-      <div class="row"><span class="ttitle" id="towerTitle"></span><span class="num" id="glowText"></span></div>
-      <div class="bar glow"><i id="glowBar"></i></div>
-      <div class="note" id="stageNote"></div>
-      <div class="note" data-i18n="offerNote"></div>
-      <div class="btns">
-        <span class="blabel" data-i18n="offerVerb"></span>
-        <button type="button" id="offerT1" data-i18n="count1"></button>
-        <button type="button" id="offerT5" data-i18n="count5"></button>
-        <button type="button" id="offerTAll" data-i18n="countAll"></button>
-      </div>
-      <div id="villageBox">
-      <div class="row"><span class="ttitle" id="resName"></span><span class="num" id="resText"></span></div>
-      <div class="bar res"><i id="resBar"></i></div>
-      <div class="note" id="resNote"></div>
-      <div class="btns" id="resBtns">
-        <span class="blabel" data-i18n="helpVerb"></span>
-        <button type="button" id="offerR1" data-i18n="count1"></button>
-        <button type="button" id="offerR5" data-i18n="count5"></button>
-        <button type="button" id="offerRAll" data-i18n="countAll"></button>
-      </div>
-      <div id="keepBox" hidden>
-        <div class="row"><span class="ttitle" data-i18n="keepersToday"></span><span class="num" id="tierText"></span></div>
-        <div class="note" id="keepList"></div>
-      </div>
-      </div>
-      <button type="button" class="plain" id="classBtn" data-i18n="changeClass"></button>
-    </div>
-
     <div class="panel" id="shop" hidden>
       <div class="row"><span class="ttitle" data-i18n="shop"></span><span class="gold" id="shopGold"></span></div>
       <div id="shopList"></div>
@@ -94,23 +66,9 @@
       <button type="button" id="dgBtn"></button>
     </div>
 
-    <div class="panel" id="quest">
-      <div class="row"><span class="ttitle" id="questTitle"></span><span class="num" id="questDist"></span></div>
-      <div id="questStep"></div>
-      <div class="num" id="questProg"></div>
-      <div class="note" id="questGo"></div>
     </div>
-    </div>
-    <div id="goalArrow" hidden></div>
 
     <div id="topmid">
-      <div class="panel" id="raid" hidden>
-        <div class="rtext" id="raidText"></div>
-        <div class="rhp">
-          <div class="num" id="raidHp"></div>
-          <div class="bar glow"><i id="raidBar"></i></div>
-        </div>
-      </div>
       <div class="panel" id="tgt" hidden>
         <div class="row"><span class="tname" id="tname"></span><span class="num" id="thp"></span></div>
         <div class="bar hp"><i id="tbar"></i></div>
@@ -161,7 +119,6 @@
       <div id="hint" data-i18n="hint"></div>
       <div id="actRow">
         <button id="autoBtn" type="button" aria-pressed="false" data-i18n="auto"></button>
-        <button id="townBtn" type="button" data-i18n="toTown"></button>
         <button id="tabBtn" type="button" data-i18n="attackNearest"></button>
       </div>
       <div id="skills"></div>
